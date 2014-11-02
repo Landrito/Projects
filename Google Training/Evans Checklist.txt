@@ -1,0 +1,50 @@
+Evans Checklist:
+===================
+
+Pass things into functions as const references when it is greater than the size of reference
+
+Declare variables closer to their first use to decrease scope
+	You can add a block to decrease the scope of a variable
+
+ALWAYS Initialize your variables
+	read up on defensive programming
+	Use intializer lists and always make constructors that work to initialize your variables
+	Initialize templated values with null
+
+SAFETY IS OF HUGE IMPORTANCE
+	"its better to sacrifice a few picoseconds each time the function is calledthan to sacrifice 2 days of debugging when a programmer fucks this up"
+	Use const in member functions that need it. Use it everywhere
+
+Readability increases safety
+	this-> is good to show what you are accessing
+	Call Variables something reaaaaally self descriptive
+
+State stuff
+	When adding state, see what functions actually need that state and see if passing it in as a variable is an option.
+	Member variables are like global varaibles
+	with parameters, you can follow their movement through the code, and it makes it way easier to understand and debug and it makes it more readable
+
+
+Remember from Interview
+	Iterator operator++
+		itrPtr = itrPtr->next;
+		DONT USE itrPtr = itrPtr+1;
+	Always make sure that head and tail are intialize
+	Account for all cases in insert
+		IE the list is empty
+	Iterators are just a class that holds a private node
+	template<typename type>
+	class<type>::stuff
+	make iterator constructor private????
+	use classes correctle
+	begin and end should return iterators
+	Always mention that this-> is optional
+	TALK OUT LOUD
+	"I know you didn't ask for the overloaded assignment operator but I also know that it is usally essential for classes, would you like that written as well?"
+
+Red Black Tree Stuff
+	enum
+	tree destructors node * not node * &
+	node * & can be done as regular parameters where the function returns the new node
+	Make your stuff self checking and self sustaining
+		

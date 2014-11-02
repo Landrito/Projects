@@ -1,0 +1,276 @@
+
+the whole typedef thing
+thats an anachronism from C
+you can just say struct tuple { ... };
+
+line 19, you might have considered this already
+but you might want to take those in by const reference
+
+also line 19, you should define a copy constructor so you can construct a tuple from another tuple
+
+
+
+youre declaring all of your variables at the top
+
+you definitely came from a C background before c++ lol
+well, i dont think anyone would frown upon it
+except for me perhaps
+sometimes i take encapsulation a lot further than others
+the idea that some variables exist before they're needed seems weird to me
+
+and if i could destroy variables once im done using them, i would
+often i add blocks just to do that
+
+its literally just an open brace
+then some code
+then a close brace
+its nice in that it makes a new scope
+so variables that are defined in that scope will not be accessible past the end brace
+its useful for triggering destructors when you want, too
+
+thats the sort of thing id use in my personal code, but maybe not in code others have to read
+but anyway, as for declaring them, i prefer to declare things closer to their first use
+
+its more of a... keep yourself from accidentally using something you didnt mean to
+also, a useful habit that i think more people should have is to initialize their variables
+even if they'll be overwritten later
+
+i personally prefer int numPoints = 0;
+even if you do cin to overwrite it later
+i always initialize my stuff, because i know that i forget things a lot
+and the *worst* thing to introduce into your program is randomness, such as the garbage/previous memory
+
+also called defensive programming
+encapsulation is also part of defensive programming
+
+there are very real benefits to the pattern youre using
+ever heard the saying "state is the root of all evil"?
+its a bit overboard, but it still comes close to making a valid point
+
+on line 195, clever thing u did there
+can all types of iterators do that?
+the whole myiterator+somenumber thing
+
+Evan Ovadia
+now, what to do about these massive copies
+
+then use pointers wherever you need to, to avoid having massive copies
+stliib is used frequently correct?
+
+aside from autodesk, i dont have much c++ experience in the industry
+id imagine stdlib is used a lot though
+i have heard of people rolling their own
+such as Qt's QList and whatnot
+
+99.9% of the time, just use stdlib
+you better have a *very* good, very clear reason not to use it
+if there's any doubt, just use stdlib
+anyway, by saturday night youll have this thing in a much better state
+
+and at that point, ill submit my internal reference for you
+once im confident you can hold your own in a c++ interview
+
+
+so, there's two approaches for lines 26-28
+there's storing them as separate variables, or having them as an array
+usually its more convenient as an array, but there are certain benefits to having them separate
+can you think of any?
+
+with arrays, you might accidentally access out of bounds
+like, accidentally accessing element 4 of a 3-element array
+
+the benefit of having them separate like this is that that's impossible
+the compiler makes it impossible
+so in this case, i kind of like your approach
+
+
+sounds like a lot of overhead to maintain safety
+BAD
+BAD ERNEST
+remember, other programmers, and you, and me, are stupid as hell
+and you need to program with that in mind
+its better to sacrifice a few picoseconds each time the function is called
+than to sacrifice 2 days of debugging when a programmer fucks this up
+
+your instinct should always be that you should rely on the compiler's static analysis, and only stray from that when you have a good, clear reason
+so, that said... explain to me the pros and cons of line 32
+where you used this->
+
+I used this, so that there was no question which p1 was getting assigned
+So safety
+
+mmyes, i can definitely agree with that philosophy
+even though the this-> is optional
+very nice
+
+yep, makes it more readable too
+
+like "This triangles p1"
+
+readability prevents bugs
+
+so, in one constructor you use the initializer list
+and one you dont
+make them both the initializer list
+
+Not initializing variables!
+Oh man! Overlooked that one!
+
+are initializer lists better in general?
+to me, they are less readable
+yeah i can definitely see where youre coming from on that
+in the olden days, they were here for optimization, i think
+but nowadays, they're only really required for const members
+or to call members' constructors
+
+as for this case, you make a good point
+personally id prefer the initializer list
+ok, im about to grace you with a very important bit of knowledge
+on line 40, there should be a const at the end
+SAFETY
+SOOOO MUCH SAFETY
+use it everywhere you can, ernest
+ive seen terrible things
+one could easily accidentally make one of those subtractions into a -=
+you definitely need a const here
+
+why do you have this variable
+i mean, just on principle, i have this prejudice on introducing state to save time
+and normally i wouldnt say anything, since yeah, its an entire loop youre saving
+but in this case, you actually dont need it
+you can avoid the extra computation and not have a member variable
+oh btw, state = data
+dunno why i say state
+member variables are like fireworks
+you better be VERY careful when you have them around
+so the basic problem is that you dont want to recalculate it every time you come into findEar
+but the only thing that calls findEar is tesselate
+why not calculate it from tesselate, then pass it to findEat as an argument?
+
+other than the fact that nothing else needs to know if the polygon is clockwise or not?
+I'm totally guessing, but is it because we have full control of the scope of the state
+
+so, i can totally see myself forgetting that line
+174
+
+Evan Ovadia
+that saying should drive your programming strategy like instinct
+Ernest Landrito
+
+i run into it all the time in big programs
+i add one marine to the other marine's "allies" list, but forget vice versa
+i have a cached variable here, but forget to update it when the calculation should change
+
+you have to be EXTREMELY careful not to let it get out of sync
+because it WILL and it will be PAINFUL
+very painful
+and when you do need to optimize and put in extra state to make things faster... well
+you better learn how to use asserts and testing real, real well
+anyway, so yeah, never add a member when there's another way
+btw, all this logic applies to globals, im sure youve noticed
+
+member variables are like mini-globals
+in that their scope isnt limited and trackable through function calls
+they can just change out from under you, if another function wants to
+
+with parameters, you can follow their movement through the code, and it makes it way easier to understand and debug
+and it makes it more readable
+member variables and globals are what i refer to as "state"
+technically, local variables are state, but rarely the evil kind
+
+
+hold on, in the general case, is it better for OOP to keep data and functionality separate?
+
+nooo
+ok yea, answer is no
+because then you lose the benefits of the "private" keyword
+Only have the state you NEEED
+
+and in that case, yes, keep the functions and data separate
+but until then, we seem to have to make the choice
+the tradeoff
+we either have to choose, more state with private access, or less state with public access
+and they really boil down to the same problem: who can access what data and when
+and btw, just transforming code like this to C wont make the problem go away
+for example, lets say you just handed around a polygon*
+which had that boolean in there
+that's still state
+even though its a little easier to track
+
+now, i think a perfect solution would be to hand around not a polygon*, but instead a vector and that boolean as separate parameters
+that way, we can hand off one or the other or both as needs require
+h, thats actually coming close to what i suggested before
+where we make this boolean not a member variable, but just a parameter to findEar
+same sort of thinking
+we're limiting the lifetime of this boolean, and making it much less stately
+
+you gotta make that one const
+thats super important
+oh jesus!
+YOU MODIFY THE DATA IN TESSELATE
+D:
+
+its not clear from the name that youre modifying my instance!
+that will lead to countless headaches for people who use your code
+
+make it const, i dont care how many copies of whatever data you have to make
+anyway, have this next round done by tomorrow 11:59pm
+
+is the class polygon still necessary if i remove all of the members from the object?
+i love that you asked that
+and we'll discuss the pros and cons soon
+but for now, keep it in
+
+Keep the vector on the class while still passing it as a parameter in the function?
+
+youre right, it would probably be better in this case to just pass it around via parameter
+for the same reasons i mentioned before
+but this is a learning exercise, just keep that vector as a member and dont put it in parameters to other member functions
+
+next round, we'll look deeper into the pros and cons of just completely switching to uh
+functional? procedural style?
+not sure the word
+the opposite of OOP
+
+goooood goooood
+make that vector not a pointer anymore, its not needed when we just have it as a member
+also, const bool & is a little funny
+you dont ever see const bool &, because there's no reason to have em
+for example you would often see const triangle & instead of just triangle, because its faster to copy a reference (8 bytes) than an entire triangle (24 bytes i think)
+but passing a reference (8 bytes) instead of a bool (1 byte) is a bit silly
+oh, by "make that vector not a pointer anymore", i mean specifically the member vector<point>. keep the vector<triangle> as a pointer
+also, line 122, store the four points in variables, to make it more readable
+also, i personally dont like the names p1, p2, and p3
+most people would be fine
+but i prefer point2Index point3Index, point1Index, etc.
+or at least p1Index, p2Index, p3Index
+it just makes it more apparent that those are indices, not points themselves
+also, rename TOLERANCE to EPSILON
+actually... hmmm
+maybe put a comment on TOLERANCE instead, saying what it's for
+it occurs to me that EPSILON might be more widely used, but its less descriptive than TOLERANCE
+i like that name TOLERANCE
+
+
+so, the normal way to do this in c-style coding is to use something called "opaque pointers"
+i suppose its a useful thing to know, but only barely... you dont often see c code nowadays
+
+So I'm hesitant to do
+rbtree() : head(NULL);
+because I haven't defined the default constructor for a node pointer
+Is there a special C++ thing where all pointers can be constructed with constructor notation
+or must I define the node * constructor to use the constructor in the intializer list.
+Evan Ovadia
+ah yes
+so, every type in c++ has a constructor, except for classes/structs that made their constructor private or defined different constructors
+every enum, pointer, number, etc. has a constructor
+so doing it like that, value(NULL) is the way to go
+really, ever object should have the 5 basic things defined
+destructor, copy constructor, and =
+so in my interview
+I should throw down the "I know you didn't ask for the overloaded assignment operator but I also know that it is usally essential for classes, would you like that written as well?"
+
+the main gripe i have against state is that some people introduce it needlessly
+i guess, when adding more state will make something VERY much easier to understand, so much easier that it will be easier to debug, maybe
+and then, youll also have to take the usual precautions about redundant state, which ill get into soon
+
