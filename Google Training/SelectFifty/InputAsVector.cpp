@@ -33,6 +33,39 @@ vector<int> firstSimpTimeComplex(const vector<int> &numbers){
 }
 
 vector<int> secondSimpTimeComplex(const vector<int> &numbers){
+	int arr[1000000000];
+	for(int i = 0; i < 1000000000; i++){
+		arr[i] = 0;
+	}
+
+	for(vector<int>::iterator it = numbers.begin(), itEnd = numbers.end(); 
+		it != itEnd; it++){
+		arr[*it]++;
+	}
+
+	vector<int> returnVector;
+	for(int i = 0; i < 1000000000 && returnVector.size() < 50; i++){
+		for(int j = 0; j < arr[i] && returnVector.size() < 50; j++){
+			returnVector.push_back(i);
+		}
+	}
+	return returnVector;
+}
+
+vector<int> firstSpaceComplex(const vector<int> &numbers){
+	vector<int> numbersCopy(numbers);
+	vector<int>::iterator iterBeg = numbersCopy.begin();
+	vector<int>::iterator iterEnd = numbersCopy.end();
+
+	sort(iterBeg, iterEnd);
+
+	vector<int> returnVector;
+	copy( iterBeg, iterBeg + 50, returnVector.begin() );
+
+	return returnVector; 
+}
+
+vector<int> secondSpaceComplex(const vector<int> &numbers){
 	vector<int>::iterator iterBeg = numbers.begin();
 	vector<int>::iterator iterEnd = numbers.end();
 	vector<int> returnVector;
@@ -49,23 +82,7 @@ vector<int> secondSimpTimeComplex(const vector<int> &numbers){
 		}
 	}
 	return returnVector;
-}
-
-vector<int> firsSpaceComplex(const vector<int> &numbers){
-	vector<int> numbersCopy(numbers);
-	vector<int>::iterator iterBeg = numbersCopy.begin();
-	vector<int>::iterator iterEnd = numbersCopy.end();
-
-	sort(iterBeg, iterEnd);
-
-	vector<int> returnVector;
-	copy( iterBeg, iterBeg + 50, returnVector.begin() );
-
-	return returnVector; 
-}
-
-vector<int> secondSpaceComplex(const vector<int> &numbers){
-
+	
 }
 
 vector<int> mostReadible(const vector<int> &numbers){
@@ -78,4 +95,5 @@ vector<int> mostReadible(const vector<int> &numbers){
 	}
 
 	return returnVector;
+	
 }

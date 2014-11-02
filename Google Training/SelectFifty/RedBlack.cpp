@@ -387,19 +387,22 @@ type rbTree<type>::max() const
 }
 
 template<typename type>
-vector<type> toVector() const{
+vector<type> toVector( int size ) const{
 	vector<type> returnVector;
-	toVectorHelper(root);
+	toVectorHelper(root, size);
 	return returnVector;
 }
 
 template<typename type>
-void toVectorHelper(vector<type> & returnVector, node * treeNode) const{
+void toVectorHelper(vector<type> & returnVector, node * treeNode, int size) const{
 	if(treeNode->left != NULL || treeNode ->right != NULL)
 	{
 		toVectorHelper(returnVector, treeNode->left);
-		returnVector.push_back(treeNode->value);
-		toVectorHelper(returnVector, treeNode->right);
+		if(returnVector.size() < size){
+			returnVector.push_back(treeNode->value);
+			toVectorHelper(returnVector, treeNode->right);
+		}
+		
 	}
 }
 
