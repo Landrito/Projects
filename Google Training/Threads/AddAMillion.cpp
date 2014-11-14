@@ -14,11 +14,11 @@ int main(){
 
 	for(int i = 0; i < NUM_THREADS; i++){
 		results[i] = 0;
-		threadArray[i] = new std::thread(sumValues, array, &results[i], i*(NUM_VALUES / NUM_THREADS), (i+1)*(NUM_VALUES/NUM_THREADS));
+		threadArray[i] = new std::thread(sumValues, array, std::ref(results[i]), i*(NUM_VALUES / NUM_THREADS), (i+1)*(NUM_VALUES/NUM_THREADS));
 	}
 
 	int finalResult = 0;
-	sumValues(results, finalResult, 0, NUM_THREADS);
+	sumValues(results, std::ref(finalResult), 0, NUM_THREADS);
 
 	std::cout << finalResult << " Bitches." << std::endl;
 
