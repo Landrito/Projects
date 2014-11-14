@@ -17,6 +17,10 @@ int main(){
 		threadArray[i] = new std::thread(sumValues, array, std::ref(results[i]), i*(NUM_VALUES / NUM_THREADS), (i+1)*(NUM_VALUES/NUM_THREADS));
 	}
 
+	for(int i = 0; i < NUM_THREADS; i++){
+		threadArray[i]->join();
+	}
+
 	int finalResult = 0;
 	sumValues(results, std::ref(finalResult), 0, NUM_THREADS);
 
