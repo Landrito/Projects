@@ -27,6 +27,6 @@ int main(){
 
 void sumValues(int * arr, int & result, int start, int end){
 	for(int i = start; i < end; i++){
-		*result += arr[i];
+		result += arr[i];
 	}
 }
