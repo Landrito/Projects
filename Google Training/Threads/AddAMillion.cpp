@@ -3,15 +3,25 @@
 
 const int NUM_VALUES = 1000000;
 const int NUM_THREADS = 8;
+const int MAX_VALUE = 15 * NUM_VALUES / 1000;
+
 
 int main(){
 	int * array = new int[NUM_VALUES];
 	int * results = new int[NUM_THREADS];
 
-	//Do something here to initialize the array to the values to which we needa add.
-
+	//ASSIGN THE VALUES
 	std::thread ** threadArray = new std:thread*[NUM_THREADS];
+	for(int i = 0; i < NUM_THREADS; i++){
+		threadArray[i] = new std::thread(sumValues, array, i*(NUM_VALUES / NUM_THREADS), (i+1)*(NUM_VALUES/NUM_THREADS));
+	}
 
+	for(int i = 0; i < NUM_THREADS; i++){
+		threadArray[i]->join();
+		delete threadArray[i];
+	}
+
+	//CALCULATE THE VALUES
 	for(int i = 0; i < NUM_THREADS; i++){
 		results[i] = 0;
 		threadArray[i] = new std::thread(sumValues, array, std::ref(results[i]), i*(NUM_VALUES / NUM_THREADS), (i+1)*(NUM_VALUES/NUM_THREADS));
@@ -19,6 +29,7 @@ int main(){
 
 	for(int i = 0; i < NUM_THREADS; i++){
 		threadArray[i]->join();
+		delete threadArray[i];
 	}
 
 	int finalResult = 0;
@@ -31,6 +42,22 @@ int main(){
 
 void sumValues(int * arr, int & result, int start, int end){
 	for(int i = start; i < end; i++){
-		result += arr[i];
+		bool prime == true;
+		for(int j = 2; j <= MAX_VALUE && prime; i++){
+			if(arr[i] == 1){
+				prime = false;
+			} else if(arr[i] % i == 0){
+				prime == false;
+			}
+		}
+		if(prime){
+			result += arr[i];
+		}
+	}
+}
+
+void assignValue(int * arr, int start, int end){
+	for( int i = start; i < send; i++){
+		arr[i] = 15 * i / 1000;
 	}
 }
